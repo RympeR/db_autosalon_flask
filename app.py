@@ -148,38 +148,105 @@ def director(username):
         "SELECT * from sellerc WHERE role_='director';")
     data1 = data1.first()
     print(data1)
-    return render_template('Director.html', dirstaff=data1, username=session['username'])
+    return render_template('director.html', dirstaff=data1, username=session['username'])
 
 @app.route('director/check_cars/<username>/', methods=['POST', 'GET'])
 def directorCheckCars(username):
-    pass
+    if 'username' not in session or session['username'] != username:
+        abort(401)
+    return render_template('director_check_cars.html')
 
 @app.route('director/check_recievers/<username>/', methods=['POST', 'GET'])
 def directorCheckRecievers(username):
-    pass
+    if 'username' not in session or session['username'] != username:
+        abort(401)
+    return render_template('director_check_recievers.html')
 
 @app.route('director/check_staff/<username>/', methods=['POST', 'GET'])
 def directorCheckStaff(username):
-    pass
+    if 'username' not in session or session['username'] != username:
+        abort(401)
+    return render_template('director_check_staff.html')
 
 @app.route('director/salary_changes/<username>/', methods=['POST', 'GET'])
 def directorApplySalaryBonuses(username):
-    pass
+    if 'username' not in session or session['username'] != username:
+        abort(401)
+    return render_template('director_salary_changes.html')
 
 @app.route('director/finance_statistics/<username>/', methods=['POST', 'GET'])
 def directorFinanceStatistics(username):
-    pass
+    if 'username' not in session or session['username'] != username:
+        abort(401)
+    return render_template('director_finance_statistics.html')
 
 @app.route('director/car_order/<username>/', methods=['POST', 'GET'])
 def directorOrderCar(username):
-    pass
+    if 'username' not in session or session['username'] != username:
+        abort(401)
+    return render_template('director_car_order.html')
+
 
 #------------------------CLIENT-------------------------------
+@app.route('/client/<username>')
+def client(username):
+    if 'username' not in session or session['username'] != username:
+        abort(401)
+
+    session_ = loadSession('autosalon_client:client')
+    data1 = session_.execute(f"SELECT * from client WHERE login='{username}';")
+    data1 = data1.first()
+    print(data1)
+    return render_template('client.html', dirstaff=data1, username=session['username'])
+
+@app.route('/client/make_order/<username>/', methods=('POST', 'GET'))
+def clientMakeOrder(username):
+    if 'username' not in session or session['username'] != username:
+        abort(401)
+    return render_template('client_make_order.html')
+
+@app.route('/client/check_cars/<username>/', methods=('POST', 'GET'))
+def clientCheckCars(username):
+    if 'username' not in session or session['username'] != username:
+        abort(401)
+    return render_template('client_cars_check.html')
 
 #-------------------------------------------------------------
 
 #------------------------MANAGER------------------------------
+@app.route('/staff/<username>')
+def staff(username):
+    if 'username' not in session or session['username'] != username:
+        abort(401)
+
+    session_ = loadSession('autosalon_client:client')
+    data1 = session_.execute(f"SELECT * from client WHERE login='{username}';")
+    data1 = data1.first()
+    print(data1)
+    return render_template('staff.html', dirstaff=data1, username=session['username'])
+
+@app.route('/staff/sell_car/<username>/', methods=('POST', 'GET'))
+def staffSellCar(username):
+    if 'username' not in session or session['username'] != username:
+        abort(401)
+    return render_template('staff_sell_car.html')
+
+@app.route('/staff/check_cars/<username>/', methods=('POST', 'GET'))
+def staffCheckCars(username):
+    if 'username' not in session or session['username'] != username:
+        abort(401)
+
+    return render_template('staff_cars_check.html')
 
 #-------------------------------------------------------------
 
 
+# --------------------------BASE PAGES-------------------------------
+@app.route('/home')
+@app.route('/')
+def home():
+    return render_template('autosalon_main.html')
+
+
+if __name__ == "__main__":
+    app.run(debug=True)

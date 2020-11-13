@@ -1,4 +1,8 @@
 import psycopg2
+from sqlalchemy import create_engine, MetaData
+import psycopg2
+from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy.orm import scoped_session, sessionmaker
 
 def execute_query(user, password, query):
     conn = psycopg2.connect(
