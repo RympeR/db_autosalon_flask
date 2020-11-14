@@ -1,0 +1,25 @@
+.navbar {
+    z-index: 1040;
+}
+.side-nav {
+margin-top: 49px !important;
+}
+
+.double-nav .breadcrumb-dn p {
+    color: #fff;
+}
+body > .container{
+padding-top: 60px;
+}
+.footer {
+color: rgb(12, 12, 12);
+position: absolute;
+bottom: 0;
+width: 100%;
+height: 60px;
+line-height: 60px;
+background-color: rgb(12, 12, 12);
+}
+.background{
+    background-image: url('../img/sclass_back.jpg');
+}

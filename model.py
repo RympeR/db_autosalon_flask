@@ -4,6 +4,8 @@ import psycopg2
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import scoped_session, sessionmaker
 
+db = SQLAlchemy()
+
 def execute_query(user, password, query):
     conn = psycopg2.connect(
         host="127.0.0.1",

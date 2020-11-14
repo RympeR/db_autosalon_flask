@@ -376,4 +376,17 @@ SELECT * FROM Car;
 
 
 
+--обновление зп
+create or replace function upply_salary_bonuses(staff_id integer) returns void
+as $$
+update sellerssupplement
+	set supplementamount = supplementamount + 0.05*(
+		select sum(price)
+			from car 
+			join purchase using(purchase_id)
+			join sellers using(sellerid)
+			where sellerid = staff_id
+	) where seller_id=staff_id;
+
+$$ LANGUAGE SQL;
 
