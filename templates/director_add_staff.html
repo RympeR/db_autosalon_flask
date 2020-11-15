@@ -1,10 +1,31 @@
 {% extends "base.html" %}
 {% block title %}
 {% endblock title %}
+{% block header %}
+    {% include "logined_header.html" %}
+{% endblock header %}
 {% block custom_css %}
 {% endblock custom_css %}
 {% block main_content %}
+<form  method="POST">
+    <p>Имя</p>
+    <input type="text" id='first_name' name='first_name'><br><br>
+    <p>Фамилия</p>
+    <input type="text" id='last_name' name='last_name'><br><br>
+    <p>Отчество</p>
+    <input type="text" id='father_name' name='father_name'><br><br>
+    <p>Номер телефона</p>
+    <input type="text" id='phone_number' name='phone_number'><br><br>
+    <p>Номер паспорта</p>
+    <input type="text" id='passport_number' name='passport_number'><br><br>
+    <p>inn</p>
+    <input type="text" id='inn' name='inn'><br><br>
+    <p>Логин</p>
+    <input type="text" id='login' name='login'><br><br>
+    <p>Пароль</p>
+    <input type="text" id='passw' name='passw'><br><br>
+    <input type="submit" value="Добавить сотрудника"><br>
+</form>
 {% endblock main_content %}
 {% block side_script %}
 {% endblock side_script %}
-{% include "" %}

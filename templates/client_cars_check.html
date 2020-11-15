@@ -1,10 +1,82 @@
 {% extends "base.html" %}
 {% block title %}
 {% endblock title %}
-{% block custom_css %}
-{% endblock custom_css %}
+{% block header %}
+    {% include "logined_header.html" %}
+{% endblock header %}
 {% block main_content %}
+<form  method="POST">
+    <p>Модель</p>
+    <input type="text" id='modeltype' name='modeltype'><br><br>
+    <p>Дата выпуска</p>
+    <input type="date" id='releasdata' name='releasdata'><br><br>
+    <p>Тип климат контроля</p>
+    <select id='climatcontroltype' name='climatcontroltype'>
+        <option value="empty" selected >Не выбрано</option>
+        {% for climatcontroltype in climatcontroltypes  %}
+        <option value="{{ climatcontroltype[0] }}">{{ climatcontroltype[1] }}</option>
+        {% endfor %}
+    </select><br><br>
+    <p>Тип аудио системы</p>
+        <select id='audiosystemtype' name='audiosystemtype'>
+            <option value="empty" selected >Не выбрано</option>
+            {% for audiosystem in audiosystems  %}
+            <option value="{{ audiosystem[0] }}">{{ audiosystem[1] }}</option>
+            {% endfor %}
+        </select><br><br>
+    <p>Цена</p>
+    <input type="number" id='price' name='price'><br><br>
+    <p>Тип топлива</p>
+    <select id='fuel_type' name='fuel_type'>
+        <option value="empty" selected >Не выбрано</option>
+        {% for fuel in fuel_types  %}
+        <option value="{{ fuel[0] }}">{{ fuel[1] }}</option>
+        {% endfor %}
+    </select><br><br>
+    <p>Расход топлива</p>
+    <input type="text" id='fuelconsumption' name='fuelconsumption'><br><br>
+    <p>Цвет</p>
+    <select id='colore' name='colore'>
+        <option value="empty" selected >Не выбрано</option>
+        {% for color in colores  %}
+        <option value="{{ color[0] }}">{{ color[1] }}</option>
+        {% endfor %}
+    </select><br><br>
+    
+    <p>Объем двигателя</p>
+    <input type="text" id='enginevolume' name='enginevolume'><br>
+    <input type="submit" value="Поиск"><br>
+</form>
+{% if result != '' %}
+    <table class="table">
+        <thead>
+            <tr>
+              <th scope="col">Модель</th>
+              <th scope="col">Дата выпуска</th>
+              <th scope="col">Тип климат контроля</th>
+              <th scope="col">Тип аудио системы</th>
+              <th scope="col">Цена</th>
+              <th scope="col">Тип топлива</th>
+              <th scope="col">Расход топлива</th>
+              <th scope="col">Цвет</th>
+              <th scope="col">Объем двигателя</th>
+            </tr>
+        </thead>
+        {% for row in result %}
+            <tr>
+                <th>{{ row[0] }}</th>
+                <th>{{ row[1] }}</th>
+                <th>{{ row[2] }}</th>
+                <th>{{ row[3] }}</th>
+                <th>{{ row[4] }}$</th>
+                <th>{{ row[5] }}</th>
+                <th>{{ row[6] }}</th>
+                <th>{{ row[7] }}</th>
+                <th>{{ row[8] }}</th>
+            </tr>          
+        {% endfor %}
+    </table>
+{% endif %}
 {% endblock main_content %}
 {% block side_script %}
 {% endblock side_script %}
-{% include "" %}

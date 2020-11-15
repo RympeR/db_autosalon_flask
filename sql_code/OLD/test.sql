@@ -275,6 +275,20 @@ CREATE USER autosalon_staff WITH LOGIN  PASSWORD 'staff';
 CREATE USER autosalon_client WITH LOGIN  PASSWORD 'client';
 CREATE USER autosalon_guest WITH LOGIN  PASSWORD 'guest';
 
+drop if exists view staff_info;
+create or replace view staff_info as 
+	select sellerid as id, first_name || ' ' || father_name || ' ' || last_name as fio, inn, phone_number, pasport_number
+	from sellers;
+
+create view statistics_info as 
+	select 
+		client.firstname || ' ' || client.fathername || ' ' || client.lastname as client_fio,
+		sellers.first_name || ' ' || sellers.father_name || ' ' || sellers.last_name as staff_fio,
+		paymenttype,
+		purchasedata
+		from sellers
+		join purchase using(sellerid)
+		join client using(client_id);
 
 REVOKE ALL on DATABASE autosalon FROM autosalon_developer;
 REVOKE ALL ON SCHEMA public FROM autosalon_developer;
@@ -313,6 +327,7 @@ GRANT SELECT, REFERENCES ON TABLE
 	public.fueltype,
 	public.climatcontrol,
 	public.client,
+	public.car,
 	public.Purchase
 	TO autosalon_client;
 
@@ -323,6 +338,7 @@ grant insert on table
 GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE 
 	public.specification, 
 	public.color,
+	public.car,
 	public.audiosystem,
 	public.transmissiontype,
 	public.fueltype,
@@ -338,6 +354,8 @@ GRANT SELECT ON TABLE
 grant insert on table 
 	public.Purchase
 	to autosalon_staff;
+	
+grant select on staff_info to autosalon_staff;
 
 GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA public TO autosalon_staff;
 GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA public TO autosalon_client;
@@ -366,16 +384,3 @@ grant insert on table
 	public.supply
 	to farm_client;
 
-create view staff_info as 
-	select first_name || ' ' || father_name || ' ' || last_name as fio, inn, phone_number, pasport_number
-	from sellers;
-
-create view statistics_info as 
-	select 
-		client.firstname || ' ' || client.fathername || ' ' || client.lastname as client_fio,
-		sellers.first_name || ' ' || sellers.father_name || ' ' || sellers.last_name as staff_fio,
-		paymenttype,
-		purchasedata
-		from sellers
-		join purchase using(sellerid)
-		join client using(client_id);

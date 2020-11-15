@@ -1,10 +1,46 @@
 {% extends "base.html" %}
 {% block title %}
 {% endblock title %}
+{% block header %}
+    {% include "logined_header.html" %}
+{% endblock header %}
 {% block custom_css %}
 {% endblock custom_css %}
 {% block main_content %}
+<form  method="POST">
+
+    <p>Дата начала</p>
+    <input type="date" id='begin_date' name='begin_date'><br><br>
+    
+    <p>Дата конца</p>
+    <input type="date" id='end_date' name='end_date'><br><br>
+    
+    <input type="submit" value="Поиск"><br>
+</form>
+{% if result != '' %}
+    <table class="table">
+        <thead>
+            <tr>
+              <th scope="col">Имя</th>
+              <th scope="col">Фамилия</th>
+              <th scope="col">Тип покупки</th>
+              <th scope="col">Дата покупки</th>
+              <th scope="col">Тип оплаты</th>
+              <th scope="col">Цена</th>
+            </tr>
+        </thead>
+        {% for row in result %}
+            <tr>
+                <th>{{ row[0] }}</th>
+                <th>{{ row[1] }}</th>
+                <th>{{ row[2] }}</th>
+                <th>{{ row[3] }}</th>
+                <th>{{ row[4] }}</th>
+                <th>{{ row[5] }}$</th>
+            </tr>          
+        {% endfor %}
+    </table>
+{% endif %}
 {% endblock main_content %}
 {% block side_script %}
 {% endblock side_script %}
-{% include "" %}

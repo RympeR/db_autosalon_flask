@@ -1,10 +1,20 @@
 {% extends "base.html" %}
 {% block title %}
 {% endblock title %}
+{% block header %}
+    {% include "logined_header.html" %}
+{% endblock header %}
 {% block custom_css %}
 {% endblock custom_css %}
 {% block main_content %}
+<div class="row">
+    <div class="container">
+        <div class="col-md4">
+            <a class="nav-link" href="/staff/sell_car/{{username}}/">Продать машину</a><br>
+            <a class="nav-link"  href="/staff/check_cars/{{username}}">Доступные машины</a>
+        </div>
+    </div>
+</div>
 {% endblock main_content %}
 {% block side_script %}
 {% endblock side_script %}
-{% include "" %}

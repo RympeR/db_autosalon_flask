@@ -1,10 +1,18 @@
 {% extends "base.html" %}
 {% block title %}
 {% endblock title %}
+{% block header %}
+    {% include "logined_header.html" %}
+{% endblock header %}
 {% block custom_css %}
 {% endblock custom_css %}
 {% block main_content %}
+<form  method="POST">
+
+    <p>Номер сотрудника</p>
+    <input type="number" id='staff_id' name='staff_id'><br><br>
+    <input type="submit" value="Изменить"><br>
+</form>
 {% endblock main_content %}
 {% block side_script %}
 {% endblock side_script %}
-{% include "" %}
