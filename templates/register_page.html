@@ -2,21 +2,30 @@
 {% block title %}
 {% endblock title %}
 {% block custom_css %}
+<style>
+    p{
+        color:white;
+    };
+    .form-control{
+        max-width: 150px;
+        position: absolute;
+    }
+</style>
 {% endblock custom_css %}
 {% block main_content %}
-<form  method="post">
+<form method="post">
     <p>Имя</p>
-    <input type="text" id='firstname' name='firstname'><br>
+    <input type="text" class="form-control" id='firstname' name='firstname'><br>
     <p>Фамилия</p>
-    <input type="text" id='lastname' name='lastname'><br>
+    <input type="text" class="form-control" id='lastname' name='lastname'><br>
     <p>Отчество</p>
-    <input type="text" id='fathername' name='fathername'><br>
+    <input type="text" class="form-control" id='fathername' name='fathername'><br>
     <p>Номер телефона</p>
-    <input type="text" id='phonenumber' name='phonenumber'><br>
+    <input type="text" class="form-control" id='phonenumber' name='phonenumber'><br>
     <p>Логин</p>
-    <input type="text" id='username' name='username'><br>
+    <input type="text" class="form-control" id='username' name='username'><br>
     <p>Пароль</p>
-    <input type="password" id='password' name='password'><br>
+    <input type="password" class="form-control" id='password' name='password'><br>
     <input type="submit" value="Войти">
 </form>
 {% endblock main_content %}

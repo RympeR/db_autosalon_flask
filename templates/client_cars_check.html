@@ -4,52 +4,112 @@
 {% block header %}
     {% include "logined_header.html" %}
 {% endblock header %}
+{% block custom_css %}
+<style>
+    .sidenav {
+  height: 100%; /* 100% Full-height */
+  width: 0; /* 0 width - change this with JavaScript */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Stay on top */
+  top: 0; /* Stay at the top */
+  left: 0;
+  background-color: #111; /* Black*/
+  overflow-x: hidden; /* Disable horizontal scroll */
+  padding-top: 60px; /* Place content 60px from the top */
+  transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
+}
+.form-control{
+    max-width: 150px;
+}
+/* The navigation menu links */
+.sidenav a {
+  padding: 8px 8px 8px 32px;
+  text-decoration: none;
+  font-size: 25px;
+  color: #ccc6c6;
+  display: block;
+  transition: 0.3s;
+}
+
+/* When you mouse over the navigation links, change their color */
+.sidenav a:hover {
+  color: #f1f1f1;
+}
+
+/* Position and style the close button (top right corner) */
+.sidenav .closebtn {
+  position: absolute;
+  top: 0;
+  right: 25px;
+  font-size: 36px;
+  margin-left: 50px;
+}
+form>p{
+    color:white;
+}
+/* Style page content - use this if you want to push the page content to the right when you open the side navigation */
+#main {
+  transition: margin-left .5s;
+  padding: 20px;
+}
+
+/* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
+@media screen and (max-height: 450px) {
+  .sidenav {padding-top: 15px;}
+  .sidenav a {font-size: 18px;}
+}
+</style>
+{% endblock custom_css %}
 {% block main_content %}
-<form  method="POST">
-    <p>Модель</p>
-    <input type="text" id='modeltype' name='modeltype'><br><br>
-    <p>Дата выпуска</p>
-    <input type="date" id='releasdata' name='releasdata'><br><br>
-    <p>Тип климат контроля</p>
-    <select id='climatcontroltype' name='climatcontroltype'>
-        <option value="empty" selected >Не выбрано</option>
-        {% for climatcontroltype in climatcontroltypes  %}
-        <option value="{{ climatcontroltype[0] }}">{{ climatcontroltype[1] }}</option>
-        {% endfor %}
-    </select><br><br>
-    <p>Тип аудио системы</p>
-        <select id='audiosystemtype' name='audiosystemtype'>
+<div id="mySidenav" class="sidenav">
+    <a href="javascript:void(0)" class="closebtn" style="color:white" onclick="closeNav()">X</a>
+    <form  method="POST">
+        <p>Модель</p>
+        <input class="form-control" type="text" id='modeltype' name='modeltype'><br><br>
+        <p>Дата выпуска</p>
+        <input class="form-control" type="date" id='releasdata' name='releasdata'><br><br>
+        <p>Тип климат контроля</p>
+        <select class="form-control" id='climatcontroltype' name='climatcontroltype'>
             <option value="empty" selected >Не выбрано</option>
-            {% for audiosystem in audiosystems  %}
-            <option value="{{ audiosystem[0] }}">{{ audiosystem[1] }}</option>
+            {% for climatcontroltype in climatcontroltypes  %}
+            <option value="{{ climatcontroltype[0] }}">{{ climatcontroltype[1] }}</option>
             {% endfor %}
         </select><br><br>
-    <p>Цена</p>
-    <input type="number" id='price' name='price'><br><br>
-    <p>Тип топлива</p>
-    <select id='fuel_type' name='fuel_type'>
-        <option value="empty" selected >Не выбрано</option>
-        {% for fuel in fuel_types  %}
-        <option value="{{ fuel[0] }}">{{ fuel[1] }}</option>
-        {% endfor %}
-    </select><br><br>
-    <p>Расход топлива</p>
-    <input type="text" id='fuelconsumption' name='fuelconsumption'><br><br>
-    <p>Цвет</p>
-    <select id='colore' name='colore'>
-        <option value="empty" selected >Не выбрано</option>
-        {% for color in colores  %}
-        <option value="{{ color[0] }}">{{ color[1] }}</option>
-        {% endfor %}
-    </select><br><br>
-    
-    <p>Объем двигателя</p>
-    <input type="text" id='enginevolume' name='enginevolume'><br>
-    <input type="submit" value="Поиск"><br>
-</form>
+        <p>Тип аудио системы</p>
+            <select class="form-control" id='audiosystemtype' name='audiosystemtype'>
+                <option value="empty" selected >Не выбрано</option>
+                {% for audiosystem in audiosystems  %}
+                <option value="{{ audiosystem[0] }}">{{ audiosystem[1] }}</option>
+                {% endfor %}
+            </select><br><br>
+        <p>Цена</p>
+        <input class="form-control" type="number" id='price' name='price'><br><br>
+        <p>Тип топлива</p>
+        <select class="form-control" id='fuel_type' name='fuel_type'>
+            <option value="empty" selected >Не выбрано</option>
+            {% for fuel in fuel_types  %}
+            <option value="{{ fuel[0] }}">{{ fuel[1] }}</option>
+            {% endfor %}
+        </select><br><br>
+        <p>Расход топлива</p>
+        <input class="form-control" type="text" id='fuelconsumption' name='fuelconsumption'><br><br>
+        <p>Цвет</p>
+        <select class="form-control" id='colore' name='colore'>
+            <option value="empty" selected >Не выбрано</option>
+            {% for color in colores  %}
+            <option value="{{ color[0] }}">{{ color[1] }}</option>
+            {% endfor %}
+        </select><br><br>
+        
+        <p>Объем двигателя</p>
+        <input class="form-control" type="text" id='enginevolume' name='enginevolume'><br>
+        <input type="submit" value="Поиск"><br>
+    </form>
+</div>
+<h1><button onclick="openNav()">Filters</button></h1>
 {% if result != '' %}
-    <table class="table">
-        <thead>
+    <table class="table table-dark">
+        <thead class="thead-dark">
             <tr>
               <th scope="col">Модель</th>
               <th scope="col">Дата выпуска</th>
@@ -79,4 +139,14 @@
 {% endif %}
 {% endblock main_content %}
 {% block side_script %}
+<script>
+    function openNav() {
+        document.getElementById("mySidenav").style.width = "250px";
+    }
+
+/* Set the width of the side navigation to 0 */
+    function closeNav() {
+        document.getElementById("mySidenav").style.width = "0";
+    }
+</script>
 {% endblock side_script %}

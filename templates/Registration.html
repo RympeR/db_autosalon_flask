@@ -2,11 +2,14 @@
 {% block title %}Логин
 {% endblock title %}
 {% block main_content %}
-<form  method="post">
-    <p>Логин</p>
-    <input type="text" id='username' name='username'><br>
-    <p>Пароль</p>
-    <input type="password" id='password' name='password'><br>
-    <input type="submit" value="Войти">
-</form>
+<div class="text-center">
+    <form class='form-signin'  method="post">
+        <p>Логин</p>
+        <input class="form-control" type="text" placeholder='логин' id='username' name='username'><br>
+        <p>Пароль</p>
+        <input class="form-control" type="password" placeholder='пароль' id='password' name='password'><br>
+        <input  class='btn btn-lg btn-primary btn-block'type="submit" value="Войти">
+    </form>
+
+</div>
 {% endblock main_content %}

@@ -7,6 +7,42 @@ app.secret_key = 'somesecretkeythatonlyishouldknow'
 session_variables = []
 role = 'autosalon_guest:guest'
 
+def where_add(query):
+    if 'where' not in query:
+        query+='\nwhere'
+    return query
+
+def add_and_case(request, query, param_name, field_name, empty=False, str_=True):
+    if empty:
+        if request.form[param_name] != 'empty':
+            query = where_add(query)
+            param=request.form[param_name]
+            if query.split('\n')[-1].strip()!='where':
+                if str_:
+                    query +=f"\nand {field_name}= '{param}'"
+                else:
+                    query +=f"\nand {field_name}= {param}"
+            else:
+                if str_:
+                    query +=f"\n{field_name}= '{param}'"
+                else:
+                    query +=f"\n{field_name}= {param}"
+    else:
+        if request.form[param_name] != '':
+            query = where_add(query)
+            param=request.form[param_name]
+            if query.split('\n')[-1].strip()!='where':
+                if str_:
+                    query +=f"\nand {field_name}= '{param}'"
+                else:
+                    query +=f"\nand {field_name}= {param}"
+            else:
+                if str_:
+                    query +=f"\n{field_name}= '{param}'"
+                else:
+                    query +=f"\n{field_name}= {param}"
+    return query
+                
 def get_cars(request, login, password):
     try:
         query = '''select 
@@ -24,79 +60,17 @@ def get_cars(request, login, password):
                     join transmissiontype using(transmissiontype_id)
                     join climatcontrol using(climatcontrol_id)
                     join fueltype using(fueltype_id)'''
-        if request.form['modeltype'] != '':
-            if 'where' not in query:
-                query+='\nwhere'
-            modeltype=request.form['modeltype']
-            if query.split('\n')[-1].strip()!='where':
-                query +=f"\nand modeltype= '{modeltype}'"
-            else:
-                query +=f"\nmodeltype= '{modeltype}'"
-        if request.form['releasdata'] != '':
-            if 'where' not in query:
-                query+='\nwhere'
-            releasdata=request.form['releasdata']
-            if query.split('\n')[-1].strip()!='where':
-                query +=f"\nAND releasdata= '{releasdata}'"
-            else:
-                query +=f"\nreleasdata= '{releasdata}'"
-        if request.form['climatcontroltype'] != 'empty':
-            if 'where' not in query:
-                query+='\nwhere'
-            climatcontroltype=request.form['climatcontroltype']
-            if query.split('\n')[-1].strip()!='where':
-                query +=f"\nAND climatcontrol_id= {climatcontroltype}"
-            else:
-                query +=f"\nclimatcontrol_id= {climatcontroltype}"
-        if request.form['audiosystemtype'] != 'empty':
-            if 'where' not in query:
-                query+='\nwhere'
-            audiosystemtype=request.form['audiosystemtype']
-            if query.split('\n')[-1].strip()!='where':
-                query +=f"\nAND audiosystem_id= {audiosystemtype}"
-            else:
-                query +=f"\naudiosystem_id= {audiosystemtype}"
-        if request.form['price'] != '':
-            if 'where' not in query:
-                query+='\nwhere'
-            price=request.form['price']
-            if query.split('\n')[-1].strip()!='where':
-                query +=f"\nAND price= {price}"
-            else:
-                query +=f"\nprice= {price}"
-        if request.form['fuel_type'].strip()!= 'empty':
-            if 'where' not in query:
-                query+='\nwhere'
-            fuel_type=request.form['fuel_type']
-            if query.split('\n')[-1].strip()!='where':
-                query +=f"\nAND fueltype_id= {fuel_type}"
-            else:
-                query +=f"\nfueltype_id= {fuel_type}"
-        if request.form['fuelconsumption'] != '':
-            if 'where' not in query:
-                query+='\nwhere'
-            fuelconsumption=request.form['fuelconsumption']
-            if query.split('\n')[-1].strip()!='where':
-                query +=f"\nAND fuelconsumption= '{fuelconsumption}'"
-            else:
-                query +=f"\nfuelconsumption= '{fuelconsumption}'"
-        if request.form['colore'] != 'empty':
-            if 'where' not in query:
-                query+='\nwhere'
-            colore=request.form['colore']
-            if query.split('\n')[-1].strip()!='where':
-                query +=f"\nAND color_id= {colore}"
-            else:
-                query +=f"\ncolor_id= {colore}"
-        if request.form['enginevolume'] != '':
-            if 'where' not in query:
-                query+='\nwhere'
-            enginevolume=request.form['enginevolume']
-            if query.split('\n')[-1].strip()!='where':
-                query +=f"\nAND enginevolume= {enginevolume}"
-            else:
-                query +=f"\nenginevolume= {enginevolume}"
+        query = add_and_case(request, query, 'modeltype', 'modeltype')
+        query = add_and_case(request, query, 'releasdata', 'releasdata')
+        query = add_and_case(request, query, 'climatcontroltype', 'climatcontrol_id',empty=True,str_=False)
+        query = add_and_case(request, query, 'audiosystemtype','audiosystem_id', empty=True,str_=False)
+        query = add_and_case(request, query, 'price', 'price', str_=False)
+        query = add_and_case(request, query, 'fuel_type', 'fueltype_id', empty=True,str_=False)
+        query = add_and_case(request, query, 'fuelconsumption', 'fuelconsumption')
+        query = add_and_case(request, query, 'colore', 'color_id', empty=True,str_=False)
+        query = add_and_case(request, query, 'enginevolume', 'enginevolume', str_=False)
         query+=';'
+        print(query)
         result = execute_select_query(login, password, query)
         
     except Exception as e:
@@ -317,7 +291,7 @@ def director(username):
 def directorCheckCars(username):
     if 'username' not in session or session['username'] != username:
         abort(401)
-    result=''
+    result = get_cars(request, 'autosalon_director', 'director')
     audiosystems = execute_select_query(
         'autosalon_director',
         'director',
@@ -521,7 +495,7 @@ def clientMakeOrder(username):
 
 @app.route('/client/check_cars/<username>/', methods=('POST', 'GET'))
 def clientCheckCars(username):
-    result=''
+    result = get_cars(request, 'autosalon_client', 'client')
     if 'username' not in session or session['username'] != username:
         abort(401)
     audiosystems = execute_select_query(
@@ -608,7 +582,7 @@ def staffSellCar(username):
 
 @app.route('/staff/check_cars/<username>/', methods=('POST', 'GET'))
 def staffCheckCars(username):
-    result=''
+    result = get_cars(request, 'autosalon_staff', 'staff')
     if 'username' not in session or session['username'] != username:
         abort(401)
     audiosystems = execute_select_query(

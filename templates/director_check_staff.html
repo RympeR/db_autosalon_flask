@@ -5,11 +5,20 @@
     {% include "logined_header.html" %}
 {% endblock header %}
 {% block custom_css %}
+<style>
+    p{
+        color:white;
+    };
+    .form-control{
+        max-width: 150px;
+        position: absolute;
+    }
+</style>
 {% endblock custom_css %}
 {% block main_content %}
 {% if result != '' %}
-    <table class="table">
-        <thead>
+    <table class="table table-dark">
+        <thead class="thead-dark">
             <tr>
               <th scope="col">ID</th>
               <th scope="col">ФИО</th>

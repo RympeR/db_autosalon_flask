@@ -5,30 +5,39 @@
     {% include "logined_header.html" %}
 {% endblock header %}
 {% block custom_css %}
+<style>
+    p{
+        color:white;
+    };
+    .form-control{
+        max-width: 150px;
+        position: absolute;
+    }
+</style>
 {% endblock custom_css %}
 {% block main_content %}
 <form  method="POST">
     <p>Модель</p>
-    <input type="text" id='modeltype' name='modeltype'><br><br>
+    <input type="text"  class="form-control" id='modeltype' name='modeltype'><br><br>
     <p>ФИО сотрудника</p>
-    <select id='seller_id' name='seller_id'>
+    <select id='seller_id'  class="form-control" name='seller_id'>
         {% for staff_ in staff  %}
         <option value="{{ staff_[0] }}">{{ staff_[1] }}</option>
         {% endfor %}
     </select><br><br>
     <p>Тип покупки</p>
-    <select name="purchasetype" id="purchasetype">
+    <select name="purchasetype"  class="form-control" id="purchasetype">
         <option value="По предзаказу">По предзаказу</option>
         <option value="Без предзаказа">Без предзаказа</option>
     </select>
     <p>Расход топлива</p>
-    <input type="text" id='fuelconsumption' name='fuelconsumption'><br><br>
+    <input type="text"  class="form-control" id='fuelconsumption' name='fuelconsumption'><br><br>
     <p>Фамилия</p>
-    <input type="text" id='last_name' name='last_name'><br><br>
+    <input type="text"  class="form-control" id='last_name' name='last_name'><br><br>
     <p>Номер телефона</p>
-    <input type="text" id='phone_number' name='fuelcophone_numbersumption'><br><br>
+    <input type="text"  class="form-control" id='phone_number' name='fuelcophone_numbersumption'><br><br>
     <p>Цвет</p>
-    <select id='colore' name='colore'>
+    <select id='colore' class="form-control"  name='colore'>
         <option value="empty" selected >Не выбрано</option>
         {% for color in colores  %}
         <option value="{{ color[0] }}">{{ color[1] }}</option>
@@ -36,7 +45,7 @@
     </select><br><br>
     
     <p>Объем двигателя</p>
-    <input type="text" id='enginevolume' name='enginevolume'><br>
+    <input type="text" class="form-control" id='enginevolume' name='enginevolume'><br>
     <input type="submit" value="оформить"><br>
 </form>
 {% endblock main_content %}
