@@ -269,12 +269,16 @@ def register():
         session_ = loadSession('autosalon_guest:guest')
         query = f"""
             insert into client(firstname, fathername, lastname, phonenumber, login, passw)
-            values('{firstname}','{fathername}','{lastname}','{phonenumber}','{username}','{password}',)
+            values('{firstname}','{fathername}','{lastname}','{phonenumber}','{username}','{password}');
         """
         print(query)
         try:
             execute_query('autosalon_guest', 'guest', query)
+            session['login'] = 'autosalon_client'
+            session['username'] = username
+            return redirect(url_for('client', username=session['username']))
         except Exception as e:
+            print(e)
             flash('Такой логин уже есть')
     return render_template('register_page.html')
 

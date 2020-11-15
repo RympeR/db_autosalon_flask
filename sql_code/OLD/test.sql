@@ -359,6 +359,7 @@ grant select on staff_info to autosalon_staff;
 
 GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA public TO autosalon_staff;
 GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA public TO autosalon_client;
+GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA public TO autosalon_guest;
 
 
 revoke SELECT, INSERT, UPDATE, DELETE ON TABLE sellers
