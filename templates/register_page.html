@@ -8,12 +8,11 @@
     };
     .form-control{
         max-width: 150px;
-        position: absolute;
     }
 </style>
 {% endblock custom_css %}
 {% block main_content %}
-<form method="post">
+<form class='form-signin'  method="post">
     <p>Имя</p>
     <input type="text" class="form-control" id='firstname' name='firstname'><br>
     <p>Фамилия</p>
@@ -30,4 +29,5 @@
 </form>
 {% endblock main_content %}
 {% block side_script %}
+
 {% endblock side_script %}
